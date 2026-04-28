@@ -8,7 +8,7 @@ variable "tags" {
   description = "Tags to apply to AWS resources"
   type        = map(string)
   default = {
-    business-unit = "Platforms"
+    business-unit = "OCTO"
     application   = "container-platform-github-access"
     is-production = "true"
     owner         = "Container Platform: platforms@digital.justice.gov.uk"
