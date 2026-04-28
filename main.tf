@@ -1,1 +1,1 @@
-# Add your module resources here
+# See github-repositories.tf
