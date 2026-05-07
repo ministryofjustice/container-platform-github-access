@@ -1,44 +1,90 @@
-# Container Platform Terraform Module Template
+# Cloud Platform GitHub Access
 
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/container-platform-terraform-template/badge)](https://github-community.service.justice.gov.uk/repository-standards/container-platform-terraform-template)
+Infrastructure as Code repository for managing the Container Platform's GitHub resources
 
-A template repository for building Terraform modules for the Container Platform.
+## Runbooks
 
-## Usage
+- Adding a new repository (runbooks/adding-github-resources.md)
 
-Click **"Use this template"** to create a new Terraform module repository.
+---
 
-## Structure
+## Running Locally
 
-```
-├── main.tf           # Main module resources
-├── variables.tf      # Input variables
-├── outputs.tf        # Output values
-├── versions.tf       # Provider and Terraform version constraints
-└── README.md
-```
+IMPORTANT:
+Only @ministryofjustice/cloud-platform can do this:
+<https://github.com/orgs/ministryofjustice/teams/cloud-platform-engineers>
 
-## After Creating Your Module
+### Prerequisites
 
-1. Update this README with your module's documentation
-2. Update `CODEOWNERS` with the appropriate team
-3. Review `dependabot.yml` configuration
-4. Update the compliance badge URL with your repository name
-5. Add your Terraform resources to `main.tf`
-6. Define input variables in `variables.tf`
-7. Define outputs in `outputs.tf`
-8. Set version constraints in `versions.tf`
+Ensure the following requirements are met before running locally.
 
-## Requirements
+---
 
-| Name | Version |
-|------|---------|
-| terraform | >= 1.0 |
+### Initialise project
 
-## Repository Standards
+1. Ensure prerequisites are met
 
-This repository follows the [Ministry of Justice GitHub Repository Standards](https://github-community.service.justice.gov.uk/repository-standards/guidance).
+2. Create virtual environment
+   uv venv
 
-## License
+3. Sync dependencies
+   uv sync --frozen
 
-[MIT License](LICENSE)
+4. Initialise pre-commit
+   pre-commit install
+
+---
+
+## AWS Authentication
+
+### AWS CLI
+
+1. Ensure prerequisites are met
+
+A) Copy and paste credentials from AWS Single Sign On:
+<https://moj.awsapps.com/start>
+
+OR
+
+B) Use AWS SSO configuration:
+
+aws configure sso --profile data-platform-development:platform-engineer-admin
+
+SSO session name: moj
+SSO start URL: <https://moj.awsapps.com/start>
+SSO region: eu-west-2
+SSO registration scopes: sso:account:access
+
+---
+
+### AWS SSO CLI
+
+WARNING: Logging in may take several minutes if you have many AWS accounts
+
+1. Ensure prerequisites are met
+
+2. Log in
+   aws-sso login
+
+3. Select profile
+   aws-sso exec --profile cloud-platform-development:platform-engineer-admin
+
+---
+
+## Terraform
+
+1. Ensure prerequisites are met
+
+2. Authenticate with AWS
+
+3. Initialise
+   terraform init
+
+4. Validate
+   terraform validate
+
+5. Plan
+   terraform plan
+
+6. Apply
+   terraform apply
