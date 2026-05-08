@@ -1,44 +1,64 @@
-# Container Platform Terraform Module Template
+# Container Platform GitHub Access
 
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/container-platform-terraform-template/badge)](https://github-community.service.justice.gov.uk/repository-standards/container-platform-terraform-template)
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/container-platform-github-access/badge)](https://github-community.service.justice.gov.uk/repository-standards/container-platform-github-access)
 
-A template repository for building Terraform modules for the Container Platform.
+Infrastructure as Code repository for managing the Container Platform team's GitHub repositories
 
-## Usage
+## Runbooks
 
-Click **"Use this template"** to create a new Terraform module repository.
+- [Adding a new repository](runbooks/adding-github-resources.md)
 
-## Structure
+## Running Locally
 
+> [!IMPORTANT]
+> Only [@ministryofjustice/cloud-platform-engineers](https://github.com/orgs/ministryofjustice/teams/cloud-platform-engineers) can do this
+
+### Requirements
+
+- [Terraform](https://developer.hashicorp.com/terraform/install) (~> 1.5)
+- [GitHub CLI](https://cli.github.com/), authenticated with `repo` and `read:org` scopes
+
+### Authenticate with GitHub
+
+Export a GitHub token for the Terraform provider:
+
+```bash
+export TF_VAR_github_token="$(gh auth token)"
 ```
-├── main.tf           # Main module resources
-├── variables.tf      # Input variables
-├── outputs.tf        # Output values
-├── versions.tf       # Provider and Terraform version constraints
-└── README.md
-```
 
-## After Creating Your Module
+### Run Terraform
 
-1. Update this README with your module's documentation
-2. Update `CODEOWNERS` with the appropriate team
-3. Review `dependabot.yml` configuration
-4. Update the compliance badge URL with your repository name
-5. Add your Terraform resources to `main.tf`
-6. Define input variables in `variables.tf`
-7. Define outputs in `outputs.tf`
-8. Set version constraints in `versions.tf`
+1. Initialise
 
-## Requirements
+   ```bash
+   terraform init
+   ```
 
-| Name | Version |
-|------|---------|
-| terraform | >= 1.0 |
+2. Validate
 
-## Repository Standards
+   ```bash
+   terraform validate
+   ```
 
-This repository follows the [Ministry of Justice GitHub Repository Standards](https://github-community.service.justice.gov.uk/repository-standards/guidance).
+3. Plan
 
-## License
+   ```bash
+   terraform plan
+   ```
 
-[MIT License](LICENSE)
+4. Apply
+
+   ```bash
+   terraform apply
+   ```
+
+## CI/CD
+
+The GitHub Actions workflow (`.github/workflows/terraform.yml`) handles authentication using the **Container Platform Access** GitHub App. It runs:
+
+- use `terraform plan` on pull requests
+- use `terraform apply` on merge to `main`
+
+## Contributing
+
+The base branch (`main`) requires all commits to be signed. Learn more about signing commits in [GitHub's documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification).
