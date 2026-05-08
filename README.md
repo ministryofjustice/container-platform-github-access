@@ -1,90 +1,62 @@
-# Cloud Platform GitHub Access
+# Container Platform GitHub Access
 
-Infrastructure as Code repository for managing the Container Platform's GitHub resources
+Infrastructure as Code repository for managing the Container Platform team's GitHub repositories
 
 ## Runbooks
 
-- Adding a new repository (runbooks/adding-github-resources.md)
-
----
+- [Adding a new repository](runbooks/adding-github-resources.md)
 
 ## Running Locally
 
-IMPORTANT:
-Only @ministryofjustice/cloud-platform can do this:
-<https://github.com/orgs/ministryofjustice/teams/cloud-platform-engineers>
+> [!IMPORTANT]
+> Only [@ministryofjustice/cloud-platform-engineers](https://github.com/orgs/ministryofjustice/teams/cloud-platform-engineers) can do this
 
-### Prerequisites
+### Requirements
 
-Ensure the following requirements are met before running locally.
+- [Terraform](https://developer.hashicorp.com/terraform/install) (~> 1.5)
+- [GitHub CLI](https://cli.github.com/), authenticated with `repo` and `read:org` scopes
 
----
+### Authenticate with GitHub
 
-### Initialise project
+Export a GitHub token for the Terraform provider:
 
-1. Ensure prerequisites are met
+```bash
+export TF_VAR_github_token="$(gh auth token)"
+```
 
-2. Create virtual environment
-   uv venv
+### Run Terraform
 
-3. Sync dependencies
-   uv sync --frozen
+1. Initialise
 
-4. Initialise pre-commit
-   pre-commit install
-
----
-
-## AWS Authentication
-
-### AWS CLI
-
-1. Ensure prerequisites are met
-
-A) Copy and paste credentials from AWS Single Sign On:
-<https://moj.awsapps.com/start>
-
-OR
-
-B) Use AWS SSO configuration:
-
-aws configure sso --profile data-platform-development:platform-engineer-admin
-
-SSO session name: moj
-SSO start URL: <https://moj.awsapps.com/start>
-SSO region: eu-west-2
-SSO registration scopes: sso:account:access
-
----
-
-### AWS SSO CLI
-
-WARNING: Logging in may take several minutes if you have many AWS accounts
-
-1. Ensure prerequisites are met
-
-2. Log in
-   aws-sso login
-
-3. Select profile
-   aws-sso exec --profile cloud-platform-development:platform-engineer-admin
-
----
-
-## Terraform
-
-1. Ensure prerequisites are met
-
-2. Authenticate with AWS
-
-3. Initialise
+   ```bash
    terraform init
+   ```
 
-4. Validate
+2. Validate
+
+   ```bash
    terraform validate
+   ```
 
-5. Plan
+3. Plan
+
+   ```bash
    terraform plan
+   ```
 
-6. Apply
+4. Apply
+
+   ```bash
    terraform apply
+   ```
+
+## CI/CD
+
+The GitHub Actions workflow (`.github/workflows/terraform.yml`) handles authentication using the **Container Platform Access** GitHub App. It runs:
+
+- `terraform plan` on pull requests
+- `terraform apply` on merge to `main`
+
+## Contributing
+
+The base branch (`main`) requires all commits to be signed. Learn more about signing commits in [GitHub's documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification).

@@ -6,15 +6,24 @@ This runbook explains how to add:
 
 ## What is configurable
 
-### Repository behavior and access
+### Repository behaviour and access
 
 - Repository catalogue and per-repository settings:
   - [github-repositories.tf](../github-repositories.tf)
 - Full list of supported repository feature flags/defaults:
-  - [modules/github/repository/variables.tf]
-    (../modules/github/repository/variables.tf)
+  - [modules/github/repository/variables.tf](../modules/github/repository/variables.tf)
 - Resource implementation details (rulesets, security, access bindings):
   - [modules/github/repository/main.tf](../modules/github/repository/main.tf)
+
+### Team data sources
+
+- Teams used for access control are defined as data sources in:
+  - [data.tf](../data.tf)
+
+## Before you start
+
+1. Ensure local setup and authentication per [README.md](../README.md).
+2. Create a feature branch.
 
 ## Add a new repository
 
@@ -28,57 +37,92 @@ Add a new map entry under `local.github_repositories`.
 Example:
 
 ```hcl
-my_new_repository = {
-  name         = "my-new-repository"
+container_platform_my_new_repo = {
+  name         = "container-platform-my-new-repo"
   description  = "Repository for ..."
-  topics       = ["ministryofjustice", "cloud-platform"]
   has_projects = true
-  visibility   = "private"
   access = {
-    admins  = [module.github_teams["cloud-platform-engineers"].id]
-    pushers  = [module.github_teams["cloud-platform-engineers"].id]
-
+    admins  = [data.github_team.cloud_platform_engineers.id]
+    pushers = [data.github_team.all_org_members.id]
   }
 }
 ```
 
 Common options already used in this repository:
 
-- `visibility` (`public` or `private`)
+- `visibility` (`public` or `private`, defaults to `public`)
 - `has_discussions`
 - `pages_enabled`
 - `pages_configuration = { cname = "..." }`
 
-### 2. Reference the correct team keys
+### 2. Reference the correct team data sources
 
-Use the generated team key in access blocks, for example:
+Teams are defined as `data "github_team"` blocks in `data.tf`. Use them in access blocks:
 
-- `module.github_teams["cloud-platform"].id`
+- `data.github_team.cloud_platform_engineers.id` (admin access)
+- `data.github_team.all_org_members.id` (push access, org-wide)
 
-If access should be organization-wide, existing code uses:
+If a new team is needed, add a `data "github_team"` block in `data.tf` first.
 
-- `data.github_team.all_org_members.id`
+### 3. Importing an existing repository
 
-## Terraform checks
+If the repository already exists on GitHub, you must import it into Terraform state before applying. Otherwise, Terraform will attempt to create a duplicate and fail.
 
+#### Option A: Import blocks (recommended, for CI)
+
+Add `import` blocks to an `imports.tf` file. These can be removed after the first successful apply:
+
+```hcl
+import {
+  to = module.github_repositories["my-existing-repo"].github_repository.this
+  id = "my-existing-repo"
+}
+
+# Import existing team access if applicable
+import {
+  to = module.github_repositories["my-existing-repo"].github_team_repository.admin["12737405"]
+  id = "12737405:my-existing-repo"
+}
+```
+
+#### Option B: CLI import (for local testing)
+
+```bash
+terraform import \
+  'module.github_repositories["my-existing-repo"].github_repository.this' \
+  my-existing-repo
+```
+
+After importing, run `terraform plan` and review the diff carefully before applying. Fix any config mismatches to avoid unintended changes to the repository.
+
+> [!NOTE]
+> Existing repositories will have `use_template` default to `false` in the module call.
+> Do not set `use_template = true` for repos that already exist. This will cause an error.
+
+## Validate changes
+
+```bash
 terraform init
 terraform validate
 terraform plan
+```
 
 ## Open a PR
 
 1. Commit changes with a clear message.
 2. Open a PR describing:
-   - team(s) added/changed
-   - users added/changed
-   - repository access model (admin/push teams)
-3. Include the relevant `terraform plan` output in the PR description.
+   - repository added/changed
+   - access model (admin/push teams)
+3. The CI workflow will run `terraform plan` automatically on the PR.
 
 ## Troubleshooting
 
-- Schema enum failure for team names:
-  - Update both `schema/teams.json` and `schema/users.json` enums.
-- Team appears with no members:
-  - Check user `teams` values match the generated team key exactly.
-- GitHub repository access not applied:
-  - Check `access` keys reference valid `module.octo_github_teams[...]` entries.
+- **`terraform plan` shows "will be created" for an existing repo**:
+  - The repo hasn't been imported into state. See [Importing an existing repository](#3-importing-an-existing-repository).
+- **Error about template on existing repo**:
+  - Ensure `use_template` is not set to `true` for repos that already exist.
+- **GitHub repository access not applied**:
+  - Check `access` keys reference valid `data.github_team` data sources in `data.tf`.
+- **Auth errors during plan/apply**:
+  - Locally: ensure `TF_VAR_github_token` is exported.
+  - CI: check that `CLIENT_ID` and `APP_PRIVATE_KEY` repo secrets are set correctly.
