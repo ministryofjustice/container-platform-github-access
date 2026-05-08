@@ -56,8 +56,8 @@ export TF_VAR_github_token="$(gh auth token)"
 
 The GitHub Actions workflow (`.github/workflows/terraform.yml`) handles authentication using the **Container Platform Access** GitHub App. It runs:
 
-- `terraform plan` on pull requests
-- `terraform apply` on merge to `main`
+- use `terraform plan` on pull requests
+- use `terraform apply` on merge to `main`
 
 ## Contributing
 
