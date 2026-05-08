@@ -1,5 +1,7 @@
 # Container Platform GitHub Access
 
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/container-platform-github-access/badge)](https://github-community.service.justice.gov.uk/repository-standards/container-platform-github-access)
+
 Infrastructure as Code repository for managing the Container Platform team's GitHub repositories
 
 ## Runbooks
