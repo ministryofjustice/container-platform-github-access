@@ -10,11 +10,22 @@ terraform {
       source  = "integrations/github"
       version = "6.11.1"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
   }
-  required_version = "~> 1.5"
+  required_version = "~> 1.10"
 }
 
 provider "github" {
   owner = var.github_owner
   token = var.github_token
+}
+
+provider "aws" {
+  region = "eu-west-1"
+  default_tags {
+    tags = var.tags
+  }
 }
