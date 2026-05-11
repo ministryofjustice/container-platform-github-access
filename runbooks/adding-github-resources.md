@@ -117,12 +117,12 @@ terraform plan
 
 ## Troubleshooting
 
-- **`terraform plan` shows "will be created" for an existing repo**:
-  - The repo hasn't been imported into state. See [Importing an existing repository](#3-importing-an-existing-repository).
-- **Error about template on existing repo**:
-  - Ensure `use_template` is not set to `true` for repos that already exist.
+- **`terraform plan` shows "will be created" for an existing repository**:
+  - The repository hasn't been imported into state. See [Importing an existing repository](#3-importing-an-existing-repository).
+- **Error about template on existing repository**:
+  - Ensure `use_template` is not set to `true` for repositories that already exist.
 - **GitHub repository access not applied**:
   - Check `access` keys reference valid `data.github_team` data sources in `data.tf`.
 - **Auth errors during plan/apply**:
   - Locally: ensure `TF_VAR_github_token` is exported.
-  - CI: check that `CLIENT_ID` and `APP_PRIVATE_KEY` repo secrets are set correctly.
+  - CI: check that `CLIENT_ID` and `APP_PRIVATE_KEY` repository secrets are set correctly.
