@@ -26,5 +26,6 @@ module "github_repositories" {
   pages_enabled       = try(each.value.pages_enabled, false)
   pages_configuration = try(each.value.pages_configuration, null)
   topics              = try(each.value.topics, null)
+  use_template        = try(each.value.use_template, false)
   access              = each.value.access
 }
