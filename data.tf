@@ -5,3 +5,7 @@ data "github_team" "all_org_members" {
 data "github_team" "cloud_platform_engineers" {
   slug = "cloud-platform-engineers"
 }
+
+data "github_team" "octo_hosting" {
+  slug = "octo-hosting"
+}
