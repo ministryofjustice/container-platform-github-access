@@ -18,6 +18,15 @@ locals {
         pushers = [data.github_team.container_platform_aws.id]
       }
     }
+    container_platform_terraform_gatekeeper = {
+      name         = "container-platform-terraform-gatekeeper"
+      description  = "Gatekeeper Terraform module for the Container Platform"
+      has_projects = true
+      access = {
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
   }
 }
 
