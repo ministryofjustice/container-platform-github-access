@@ -36,6 +36,26 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
+
+    template-repository = {
+      name         = "template-repository"
+      description  = "Template Repository"
+      has_projects = true
+      access = {
+        admins  = [data.github_team.cloud_platform_engineers.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
+
+    cloud-platform-user-guide = {
+      name         = "cloud-platform-user-guide"
+      description  = "Cloud Platform User Guide"
+      has_projects = true
+      access = {
+        admins  = [data.github_team.cloud_platform_engineers.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
   }
 }
 
