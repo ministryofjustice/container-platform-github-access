@@ -9,3 +9,7 @@ data "github_team" "cloud_platform_engineers" {
 data "github_team" "octo_hosting" {
   slug = "octo-hosting"
 }
+
+data "github_team" "container_platform_aws" {
+  slug = "container-platform-aws"
+}

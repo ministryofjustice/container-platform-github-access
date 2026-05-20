@@ -9,6 +9,15 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
+    container_platform_documentation = {
+      name        = "container-platform-documentation"
+      description = "Container Platform Documentation created as part of AWS engagement"
+      visibility  = "internal"
+      access = {
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id]
+        pushers = [data.github_team.container_platform_aws.id]
+      }
+    }
   }
 }
 
