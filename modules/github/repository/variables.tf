@@ -47,7 +47,7 @@ variable "template_repository_owner" {
 
 variable "template_repository" {
   type    = string
-  default = "template-repository"
+  default = "container-platform-terraform-template"
 }
 
 variable "has_discussions" {
