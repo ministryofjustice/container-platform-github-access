@@ -13,3 +13,7 @@ data "github_team" "octo_hosting" {
 data "github_team" "container_platform_aws" {
   slug = "container-platform-aws"
 }
+
+data "github_team" "webops" {
+  slug = "webops"
+}
