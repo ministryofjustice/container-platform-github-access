@@ -36,6 +36,16 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
+    container_platform_terraform_template = {
+      name         = "container-platform-terraform-template"
+      description  = "Template repository for Container Platform terraform modules"
+      is_template  = true
+      has_projects = true
+      access = {
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
   }
 }
 
