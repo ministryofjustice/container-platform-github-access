@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "cloud-platform-terraform-state"
-    region         = "eu-west-1"
-    key            = "container-platform-github-access/terraform.tfstate"
-    dynamodb_table = "cloud-platform-terraform-state"
+    bucket       = "cloud-platform-terraform-state"
+    region       = "eu-west-1"
+    key          = "container-platform-github-access/terraform.tfstate"
+    use_lockfile = true
   }
   required_providers {
     github = {
