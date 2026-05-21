@@ -26,32 +26,6 @@ Export a GitHub token for the Terraform provider:
 export TF_VAR_github_token="$(gh auth token)"
 ```
 
-### Run Terraform
-
-1. Initialise
-
-   ```bash
-   terraform init
-   ```
-
-2. Validate
-
-   ```bash
-   terraform validate
-   ```
-
-3. Plan
-
-   ```bash
-   terraform plan
-   ```
-
-4. Apply
-
-   ```bash
-   terraform apply
-   ```
-
 ## CI/CD
 
 The GitHub Actions workflow (`.github/workflows/terraform.yml`) handles authentication using the **Container Platform Access** GitHub App. It runs:
