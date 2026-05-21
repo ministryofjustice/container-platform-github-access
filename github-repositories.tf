@@ -37,9 +37,9 @@ locals {
       }
     }
 
-    template-repository = {
-      name         = "template-repository"
-      description  = "Template Repository"
+    container_platform_terraform_template = {
+      name         = "container-platform-terraform-template"
+      description  = "Container Platform Terraform Template"
       has_projects = true
       access = {
         admins  = [data.github_team.cloud_platform_engineers.id]
@@ -47,9 +47,9 @@ locals {
       }
     }
 
-    cloud-platform-user-guide = {
-      name         = "cloud-platform-user-guide"
-      description  = "Cloud Platform User Guide"
+    container_platform_user_guide = {
+      name         = "container-platform-user-guide"
+      description  = "Container Platform User Guide"
       has_projects = true
       access = {
         admins  = [data.github_team.cloud_platform_engineers.id]
