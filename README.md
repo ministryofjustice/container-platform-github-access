@@ -15,7 +15,7 @@ Infrastructure as Code repository for managing the Container Platform team's Git
 
 ### Requirements
 
-- [Terraform](https://developer.hashicorp.com/terraform/install) (~> 1.5)
+- [Terraform](https://developer.hashicorp.com/terraform/install) (~> 1.10)
 - [GitHub CLI](https://cli.github.com/), authenticated with `repo` and `read:org` scopes
 
 ### Authenticate with GitHub
@@ -25,32 +25,6 @@ Export a GitHub token for the Terraform provider:
 ```bash
 export TF_VAR_github_token="$(gh auth token)"
 ```
-
-### Run Terraform
-
-1. Initialise
-
-   ```bash
-   terraform init
-   ```
-
-2. Validate
-
-   ```bash
-   terraform validate
-   ```
-
-3. Plan
-
-   ```bash
-   terraform plan
-   ```
-
-4. Apply
-
-   ```bash
-   terraform apply
-   ```
 
 ## CI/CD
 
