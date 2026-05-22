@@ -55,6 +55,15 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
+    container_platform_terraform_starter_pack = {
+      name         = "container-platform-terraform-starter-pack"
+      description  = "Starter pack Terraform module for the Container Platform"
+      has_projects = true
+      access = {
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
     container_platform_user_guide = {
       name          = "container-platform-user-guide"
       description   = "User documentation for the Container Platform at the Ministry of Justice"
