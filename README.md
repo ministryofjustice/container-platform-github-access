@@ -85,4 +85,4 @@ git rebase --exec 'git commit --amend --no-edit -S' main
 git push --force-with-lease
 ```
 
-For more detail, see [GitHub's documentation on signing commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
+For more detail, see [this GitHub discussion on signing commits](https://github.com/orgs/community/discussions/153997).
