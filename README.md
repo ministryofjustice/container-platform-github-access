@@ -6,7 +6,10 @@ Infrastructure as Code repository for managing the Container Platform team's Git
 
 ## Runbooks
 
-- [Adding a new repository](runbooks/adding-github-resources.md)
+- [Repository setup and architecture](runbooks/repo-setup-and-architecture.md)
+- [Creating new repositories](runbooks/creating-new-repos.md)
+- [Importing existing repositories](runbooks/importing-existing-repos.md)
+- [Troubleshooting](runbooks/troubleshooting.md)
 
 ## Running Locally
 
@@ -35,64 +38,51 @@ The GitHub Actions workflow (`.github/workflows/terraform.yml`) handles authenti
 
 ## Contributing
 
-The base branch (`main`) requires all commits to be signed. Learn more about signing commits in [GitHub's documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification).
+The base branch (`main`) requires all commits to be signed. Unsigned commits will block your PR from merging. Learn more about signing commits in [GitHub's documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification).
 
-## Importing repositories
+### Signing Commits
 
-### Methodology
-
-Repository imports are managed through Terraform configuration and reviewed via pull requests. This approach is preferred over ad-hoc CLI imports because it makes changes visible for peer review and ensures imports are applied consistently through CI.
-
-An important rule when importing repositories, _Check a repositories settings before you import them_
-
-### Step 1: Query the repositories current & Amend the config to match the current repository
-
-To find information about a repository use `gh api` "repos/ministryofjustice/REPO_NAME" ...
+**1. Generate a GPG key** (skip if you already have one):
 
 ```bash
-# Basic settings
-gh api "repos/ministryofjustice/REPO_NAME" --jq '{description, visibility, has_wiki, has_projects, has_issues, has_discussions, is_template, homepage_url, web_commit_signoff_required}'
-
-#Team access
-gh api "repos/ministryofjustice/REPO_NAME/teams" --jq '.[] | "(.slug) (id: (.id), permission: (.permission))"'
-
-#Existing rulesets
-gh api "repos/ministryofjustice/REPO_NAME/rulesets" --jq '.[] | {name, id, enforcement}'
+gpg --full-generate-key
+# Choose: RSA, 4096 bits, set an expiry, use the email associated with your GitHub account
 ```
 
-You can then add those details to the `github-repositories.tf` file, [example here](https://github.com/ministryofjustice/container-platform-github-access/pull/36/changes#diff-78786040683a4d6acb5f292bdcc638c0d91fbdf8d585c9c228fcd553ffb2a494R67)
+**2. Get your key ID**:
 
-### Step 2: Create Import Blocks
-
-Create `imports.tf` with import blocks for resources that **already exist** on GitHub:
-
-```hcl
-# Repository
-import {
-  to = module.github_repositories["REPO_KEY"].github_repository.this
-  id = "REPO_NAME"
-}
-
-# Dependabot (if accessible)
-import {
-  to = module.github_repositories["REPO_KEY"].github_repository_dependabot_security_updates.this
-  id = "REPO_NAME"
-}
-
-# Existing team access
-import {
-  to = module.github_repositories["REPO_KEY"].github_team_repository.admin["TEAM_ID"]
-  id = "TEAM_ID:REPO_NAME"
-}
+```bash
+gpg --list-secret-keys --keyid-format=long
+# Look for the line: rsa4096/XXXXXXXXXXXXXXXX
 ```
 
-**Do NOT create import blocks for:**
+**3. Export and add to GitHub**:
 
-- New teams being added (these will be created by Terraform)
-- Resources returning 403s (remove from config or fix app permissions first)
+```bash
+gpg --armor --export XXXXXXXXXXXXXXXX
+# Copy the output (including -----BEGIN/END PGP PUBLIC KEY BLOCK-----)
+# Go to: GitHub > Settings > SSH and GPG keys > New GPG key
+```
 
-**Do create import blocks for:**
+**4. Configure Git to sign all commits**:
 
-- Existing team access (check with `gh api`)
-- Existing branch rulesets (check with `gh api`)
-- Dependabot (if accessible and already enabled)
+```bash
+git config --global user.signingkey XXXXXXXXXXXXXXXX
+git config --global commit.gpgsign true
+```
+
+**5. Verify it works**:
+
+```bash
+echo "test" | gpg --clearsign
+# If this produces signed output, you're set
+```
+
+If your PR already has unsigned commits, re-sign them:
+
+```bash
+git rebase --exec 'git commit --amend --no-edit -S' main
+git push --force-with-lease
+```
+
+For more detail, see [GitHub's documentation on signing commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
