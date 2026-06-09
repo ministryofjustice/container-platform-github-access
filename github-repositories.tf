@@ -86,6 +86,15 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
+    container_platform_terraform_gateway_api = {
+      name         = "container-platform-terraform-gateway-api"
+      description  = "Gateway API Terraform module for the Container Platform"
+      use_template = true
+      access = {
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
   }
 }
 
