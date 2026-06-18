@@ -104,7 +104,7 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
-    container-platform-integration-tests = {    
+    container-platform-integration-tests = {
       name         = "container-platform-integration-tests"
       description  = "Integration tests for the Container Platform clusters"
       has_projects = true
