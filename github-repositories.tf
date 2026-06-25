@@ -114,6 +114,14 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
+    container_platform_environments = {
+      name        = "container-platform-environments"
+      description = "Container Platform environments repository"
+      access = {
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
   }
 }
 
