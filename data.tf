@@ -14,6 +14,6 @@ data "github_team" "container_platform_aws" {
   slug = "container-platform-aws"
 }
 
-data "github_team" "webops" {
-  slug = "webops"
+data "github_team" "cloud_platform" {
+  slug = "cloud-platform"
 }
