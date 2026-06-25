@@ -10,9 +10,10 @@ locals {
       }
     }
     container_platform_documentation = {
-      name        = "container-platform-documentation"
-      description = "Container Platform Documentation created as part of AWS engagement"
-      visibility  = "internal"
+      name                = "container-platform-documentation"
+      description         = "Container Platform Documentation created as part of AWS engagement"
+      visibility          = "internal"
+      template_repository = "template-repository"
       access = {
         admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id]
         pushers = [data.github_team.container_platform_aws.id]
@@ -37,10 +38,11 @@ locals {
       }
     }
     container_platform_terraform_template = {
-      name         = "container-platform-terraform-template"
-      description  = "Template repository for Container Platform terraform modules"
-      is_template  = true
-      has_projects = true
+      name                = "container-platform-terraform-template"
+      description         = "Template repository for Container Platform terraform modules"
+      is_template         = true
+      has_projects        = true
+      template_repository = "template-repository"
       access = {
         admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
         pushers = [data.github_team.all_org_members.id]
@@ -74,10 +76,11 @@ locals {
       }
     }
     container_platform_user_guide = {
-      name          = "container-platform-user-guide"
-      description   = "User documentation for the Container Platform at the Ministry of Justice"
-      has_projects  = true
-      pages_enabled = true
+      name                = "container-platform-user-guide"
+      description         = "User documentation for the Container Platform at the Ministry of Justice"
+      has_projects        = true
+      pages_enabled       = true
+      template_repository = "template-documentation-site"
       pages_configuration = {
         cname = "user-guide.development.container-platform.service.justice.gov.uk"
       }
@@ -115,8 +118,9 @@ locals {
       }
     }
     container_platform_environments = {
-      name        = "container-platform-environments"
-      description = "Container Platform environments repository"
+      name                = "container-platform-environments"
+      description         = "Container Platform environments repository"
+      template_repository = "template-repository"
       access = {
         admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
         pushers = [data.github_team.all_org_members.id]
@@ -141,4 +145,5 @@ module "github_repositories" {
   topics              = try(each.value.topics, null)
   use_template        = try(each.value.use_template, true)
   access              = each.value.access
+  template_repository = try(each.value.template_repository, "container-platform-terraform-template")
 }
