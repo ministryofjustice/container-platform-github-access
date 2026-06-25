@@ -5,7 +5,7 @@ locals {
       description  = "Container Platform GitHub Access"
       has_projects = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -15,7 +15,7 @@ locals {
       visibility          = "internal"
       template_repository = "template-repository"
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.container_platform_aws.id]
       }
     }
@@ -33,7 +33,7 @@ locals {
       description  = "Cilium Terraform module for the Container Platform"
       has_projects = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -44,7 +44,7 @@ locals {
       has_projects        = true
       template_repository = "template-repository"
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -53,7 +53,7 @@ locals {
       description  = "External DNS Terraform module for the Container Platform"
       has_projects = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -62,7 +62,7 @@ locals {
       description  = "Starter pack Terraform module for the Container Platform"
       has_projects = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -71,7 +71,7 @@ locals {
       description  = "Karpenter terraform deployment for the Container Platform"
       has_projects = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -85,7 +85,7 @@ locals {
         cname = "user-guide.development.container-platform.service.justice.gov.uk"
       }
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -94,7 +94,7 @@ locals {
       description  = "Gateway API Terraform module for the Container Platform"
       use_template = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -103,7 +103,7 @@ locals {
       description  = "Test app Terraform module for the Container Platform"
       use_template = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -113,7 +113,7 @@ locals {
       has_projects = true
       use_template = true
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
@@ -122,7 +122,7 @@ locals {
       description         = "Container Platform environments repository"
       template_repository = "template-repository"
       access = {
-        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.webops.id]
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
     }
