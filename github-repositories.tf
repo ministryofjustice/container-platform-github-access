@@ -135,7 +135,7 @@ locals {
         admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
         pushers = [data.github_team.all_org_members.id]
       }
-    }    
+    }
   }
 }
 
