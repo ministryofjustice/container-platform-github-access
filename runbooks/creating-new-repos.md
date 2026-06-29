@@ -107,15 +107,11 @@ For each repository added, the module creates:
 - Security and analysis settings (secret scanning, push protection)
 - Default topics: `ministryofjustice`, `container-platform`
 
-## Important: Add to App Scope First
+## GitHub App Access
 
-Before merging the PR, add the new repository to the GitHub App's installation scope:
+Newly-created repositories do **not** require any manual GitHub App scope changes. The "Container Platform Access" app creates the repository and is automatically granted access to it, so the apply will not fail with a 403 error.
 
-1. Go to [container-platform-github-access > Settings > GitHub Apps](https://github.com/ministryofjustice/container-platform-github-access/settings/installations)
-2. Click Configure on "Container Platform Access" and authenticate
-3. Under "Repository access", add the new repository
-4. Then merge the Terraform PR
+> [!NOTE]
+> This is different from importing an existing repository. Because the app cannot be granted access to a repository that does not exist yet, the manual scope step only applies to imports. For that workflow, see the [Importing Existing Repositories runbook](importing-existing-repos.md).
 
-If you skip this step, the apply will fail with a 403 error.
-
-**Last reviewed:** 26 May 2026
+**Last reviewed:** 29 June 2026
