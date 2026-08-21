@@ -145,6 +145,16 @@ locals {
         pushers = [data.github_team.all_org_members.id]
       }
     }
+    container_platform_test_app = {
+      name         = "container-platform-test-app"
+      description  = "Minimal frontend and backend test application for proving the ArgoCD GitOps deployment flow on the Container Platform"
+      has_projects = true
+      use_template = false
+      access = {
+        admins  = [module.github_team.id, data.github_team.cloud_platform_engineers.id, data.github_team.cloud_platform.id]
+        pushers = [data.github_team.all_org_members.id]
+      }
+    }
   }
 }
 
