@@ -1,0 +1,33 @@
+---
+# Configuration for zizmor, the GitHub Actions static analyser bundled with
+# super-linter.
+#
+# Ignores are kept here rather than as inline `# zizmor: ignore[...]` comments
+# because zizmor only honours those as trailing comments on the `uses:` line,
+# which would displace the `# vX.Y.Z` version comment that Dependabot relies on.
+
+rules:
+  github-app:
+    ignore:
+      # Both `actions/create-github-app-token` steps request an installation
+      # token scoped to the whole ministryofjustice organisation.
+      #
+      # This cannot be narrowed:
+      #
+      #   - `repositories:` cannot be used, because Terraform here creates
+      #     repositories that do not exist yet, and a token scoped to a fixed
+      #     list cannot create new ones.
+      #   - `permission-*` cannot be used safely, because Terraform needs the
+      #     installation's full grant to create and configure repositories.
+      #     Under-scoping surfaces as a 403 during apply on main, which can
+      #     leave a repository half-created.
+      #
+      # The same conclusion was reached in
+      # ministryofjustice/modernisation-platform-github, which manages GitHub
+      # resources with Terraform in the same way and suppresses this audit for
+      # the same reason.
+      #
+      # Compensating controls are tracked separately: restricting who can push
+      # branches to this repository, and adding reviewers to the `terraform`
+      # environment.
+      - terraform.yml
