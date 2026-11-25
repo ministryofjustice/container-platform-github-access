@@ -1,6 +1,8 @@
 ### MAIN
 
 #tfsec:ignore:AVD-GIT-0001:Ministry of Justice follow GOV.UK Service Manual guidance on coding in the open (https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
+#checkov:skip=CKV_GIT_1:Ministry of Justice follow GOV.UK Service Manual guidance on coding in the open (https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
+
 resource "github_repository" "this" {
   #checkov:skip=CKV_GIT_1:Ministry of Justice follow GOV.UK Service Manual guidance on coding in the open (https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable)
 
@@ -109,6 +111,17 @@ resource "github_repository_dependabot_security_updates" "this" {
   repository = github_repository.this.id
 
   enabled = var.dependabot_security_updates_enabled
+}
+
+### CUSTOM PROPERTIES
+
+resource "github_repository_custom_property" "business_unit" {
+  repository    = github_repository.this.name
+  property_name = "business-unit"
+  property_type = "string"
+  property_value = toset([
+    lookup(var.custom_properties, "business-unit", "OCTO")
+  ])
 }
 
 ### ACCESS
