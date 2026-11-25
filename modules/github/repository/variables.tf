@@ -226,6 +226,14 @@ variable "dependabot_security_updates_enabled" {
   default = true
 }
 
+### CUSTOM PROPERTIES
+
+variable "custom_properties" {
+  type        = map(string)
+  default     = {}
+  description = "Custom properties to assign to the repository (e.g., business-unit: OCTO)"
+}
+
 ### ACCESS
 
 variable "access" {

@@ -4,6 +4,21 @@
 
 Infrastructure as Code repository for managing the Container Platform team's GitHub repositories
 
+## GitHub Repository Technical Standards
+
+All managed repositories meet the [Ministry of Justice GitHub Repository Technical Standard](https://octo-documentation.justice.gov.uk/docs/standards/github-repository-technical-standard.html).
+
+### Standards Implementation Notes
+
+Most standards are implemented via Terraform configuration. However, **code scanning** (CodeQL) must be enabled manually in each repository's GitHub settings, as it is not yet supported by the Terraform GitHub provider. To enable code scanning:
+
+1. Navigate to the repository settings
+2. Go to **Code security and analysis** → **Code scanning**
+3. Click **Enable CodeQL analysis**
+4. Choose the appropriate language support for the repository
+
+For more information on how standards are implemented in this repository, see the runbooks section below.
+
 ## Runbooks
 
 - [Repository setup and architecture](runbooks/repo-setup-and-architecture.md)

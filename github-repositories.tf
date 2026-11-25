@@ -182,6 +182,7 @@ module "github_repositories" {
   pages_configuration = try(each.value.pages_configuration, null)
   topics              = try(each.value.topics, null)
   use_template        = try(each.value.use_template, true)
+  custom_properties   = try(each.value.custom_properties, {})
   access              = each.value.access
   template_repository = try(each.value.template_repository, "container-platform-terraform-template")
 }
